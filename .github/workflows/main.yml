@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Run Docker Bench for Security
-        run: docker run --rm --net host --pid host --userns host --cap-add audit_control -v /var/run/docker.sock:/var/run/docker.sock -v /usr/lib/systemd:/usr/lib/systemd -v /etc:/etc docker/docker-bench-security --html > report.html
+        run: docker run --rm --net host --pid host --userns host --cap-add audit_control -v /var/run/docker.sock:/var/run/docker.sock -v /usr/lib/systemd:/usr/lib/systemd -v /etc:/etc -v "$(pwd)/reports:/usr/local/src/your-app/reports" docker/docker-bench-security > output.text
       
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
           name: security-reports
-          path: report.html
+          path: output.text
