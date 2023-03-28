@@ -1,0 +1,23 @@
+name: Docker Bench for Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Run Docker Bench for Security
+        run: docker run --rm --net host --pid host --userns host --cap-add audit_control -v /var/run/docker.sock:/var/run/docker.sock -v /usr/lib/systemd:/usr/lib/systemd -v /etc:/etc docker/docker-bench-security --html > report.html
+      
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: security-reports
+          path: report.html
