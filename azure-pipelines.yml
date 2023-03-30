@@ -18,11 +18,10 @@ steps:
 #     echo Add other tasks to build, test, and deploy your project.
 #     echo See https://aka.ms/yaml
 #   displayName: 'Run a multi-line script'
-- task : PublishTestResult@2
-  inputs: 
-   testResultsFormat: 'html'
-   testResultsFiles: **/output.html
-   mergeTestResults: true
-   failTaskOnFailedTests: false
-   testRunTitle: 'Trivy -Vulnerabilities scan'
-  condition: 'always()'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'HTML'
+    testResultsFiles: '**/output.html'
+    mergeTestResults: true
+    failTaskOnFailedTests: false
+    testRunTitle: 'Trivy - Vulnerabilities Summary'
