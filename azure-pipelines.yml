@@ -9,15 +9,15 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: |
-    docker run --rm ghcr.io/aquasecurity/trivy:latest -f template --template "@contrib/html.tpl" image python:slim > output.html
-  displayName: 'Run Trivy vulnerablity scan'
-
+# steps:
 # - script: |
-#     echo Add other tasks to build, test, and deploy your project.
-#     echo See https://aka.ms/yaml
-#   displayName: 'Run a multi-line script'
+#     docker run --rm ghcr.io/aquasecurity/trivy:latest -f template --template "@contrib/html.tpl" image python:slim > output.html
+#   displayName: 'Run Trivy vulnerablity scan'
+
+- task: Docker@1
+  inputs: 
+    containerregistrytype: 'Azure Container Registry'
+    command: 'docker run --rm ghcr.io/aquasecurity/trivy:latest -f template --template "@contrib/html.tpl" image python:slim > output.html'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'HTML'
